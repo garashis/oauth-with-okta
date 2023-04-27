@@ -22,22 +22,35 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .antMatchers("/logout").permitAll()
+//                .antMatchers("/", "/favicon.ico").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken);
+//                .oauth2Login()
+//                //.loginPage()
+//                .defaultSuccessUrl("/profile", true)
+//                .failureUrl("/loginFailure")
+//                .and()
+//                .logout()
+//                .logoutSuccessHandler(oidcLogoutSuccessHandler())
+//                .deleteCookies("JSESSIONID")
+//                .clearAuthentication(true)
+//                .invalidateHttpSession(true);
         http.authorizeRequests()
-                .antMatchers("/logout").permitAll()
-                .antMatchers("/", "/favicon.ico").permitAll()
+
+                // allow anonymous access to the root page
+                .antMatchers("/").permitAll()
+
+                // all other requests
                 .anyRequest().authenticated()
-                .and()
-                //.oauth2ResourceServer(OAuth2ResourceServerConfigurer::opaqueToken);
-                .oauth2Login()
-                //.loginPage()
-                .defaultSuccessUrl("/profile", true)
-                .failureUrl("/loginFailure")
-                .and()
-                .logout()
-                .logoutSuccessHandler(oidcLogoutSuccessHandler())
-                .deleteCookies("JSESSIONID")
-                .clearAuthentication(true)
-                .invalidateHttpSession(true);
+
+                // RP-initiated logout
+                .and().logout().logoutSuccessHandler(oidcLogoutSuccessHandler())
+
+                // enable OAuth2/OIDC
+                .and().oauth2Login();
         ;
         return http.build();
     }
