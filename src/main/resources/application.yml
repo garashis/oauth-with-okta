@@ -1,0 +1,25 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          #https://dev-44683278.okta.com/oauth2/default/.well-known/openid-configuration
+          # class: org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties
+          okta:
+#            authorization-grant-type: client_credentials
+            client-id: 0oa92mrp63Djnz9Kf5d7
+            client-secret: hbWgC8EimwF7Q9Pzl258_3jkwjTPnliUpdneVb28
+            scope: openid,profile,email
+        provider:
+          okta:
+            issuer-uri: https://dev-44683278.okta.com
+#            if below three properties need to be used then scope
+#            token-uri: https://dev-44683278.okta.com/oauth2/default/v1/token
+#            authorization-uri: https://dev-44683278.okta.com/oauth2/default/v1/authorize
+#            jwk-set-uri: https://dev-44683278.okta.com/oauth2/default/v1/keys
+
+
+logging:
+  level:
+    org:
+      springframework: trace
