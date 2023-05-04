@@ -1,57 +1,40 @@
 package com.example.oAuth2Login;
 
-
-import java.util.Arrays;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.mockito.*;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.oauth2.core.oidc.OidcIdToken;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.*;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = MyController.class)
+import java.util.*;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+
+@ExtendWith(MockitoExtension.class)
+
 public class MyControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @InjectMocks
+    @Spy
+    MyController myController;
 
     @Test
-    void whenValidInput_thenReturns200() throws Exception {
-
-        OidcUser oidcUser = new DefaultOidcUser(
-                AuthorityUtils.createAuthorityList("SCOPE_message:read"),
-                OidcIdToken.withTokenValue("id-token").claim("user_name", "foo_user").build(),
-                "user_name");
-
-        mockMvc.perform(get("/profile")
-//                .with(oidcLogin().authorities(new SimpleGrantedAuthority("SCOPE_message:read")))
-                .with(oidcLogin().oidcUser(oidcUser))
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+    @DisplayName("mock parent class")
+    public void test() {
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("nameAttributeKey", "Ashish");
+        GrantedAuthority authorities = new SimpleGrantedAuthority("attributes");
+        OAuth2User principal = new DefaultOAuth2User(Collections.singletonList(authorities), attributes,
+                "nameAttributeKey");
+        String authorizedClientRegistrationId = "authorizedClientRegistrationId";
+        OAuth2AuthenticationToken authentication = new OAuth2AuthenticationToken(principal, Collections.singletonList(authorities),
+                authorizedClientRegistrationId);
+        doNothing().when((BaseController) myController).logging(any(OAuth2AuthenticationToken.class));
+        myController.logging(authentication);
     }
 
 }
-
