@@ -5,14 +5,21 @@ spring:
         registration:
           #https://dev-44683278.okta.com/oauth2/default/.well-known/openid-configuration
           # class: org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2ClientProperties
-          okta:
-#            authorization-grant-type: client_credentials
-            client-id: 0oa92mrp63Djnz9Kf5d7
-            client-secret: hbWgC8EimwF7Q9Pzl258_3jkwjTPnliUpdneVb28
+          #          okta:
+          #            authorization-grant-type: client_credentials
+          #            client-id: 0oa92mrp63Djnz9Kf5d7
+          #            client-secret: hbWgC8EimwF7Q9Pzl258_3jkwjTPnliUpdneVb28
+          #            scope: openid,profile,email
+          ping:
+            client-id: 95fd3282-a5ce-42fd-98eb-03fd1594b371
+            client-secret: ITbPFIaJn_Gp-2TCZm195uGr~4CgbPTX2Kr4XoYJrfuG2Sd6HV.L-7w2G8mUSxkf
             scope: openid,profile,email
         provider:
-          okta:
-            issuer-uri: https://dev-44683278.okta.com
+          ping:
+            #https://auth.pingone.eu/3981b07b-51ea-4e68-a152-4c9f539dc2dd/as/.well-known/openid-configuration
+            issuer-uri: https://auth.pingone.eu/3981b07b-51ea-4e68-a152-4c9f539dc2dd/as
+#          okta:
+#            issuer-uri: https://dev-44683278.okta.com
 #            if below three properties need to be used then scope
 #            token-uri: https://dev-44683278.okta.com/oauth2/default/v1/token
 #            authorization-uri: https://dev-44683278.okta.com/oauth2/default/v1/authorize
@@ -23,3 +30,5 @@ logging:
   level:
     org:
       springframework: trace
+
+fakestoreapi: https://fakestoreapi.com

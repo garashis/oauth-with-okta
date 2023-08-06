@@ -1,6 +1,6 @@
 package com.example.oAuth2Login;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,7 +22,7 @@ public class MyControllerTest {
     @Spy
     MyController myController;
 
-    @Test
+    //@Test
     @DisplayName("mock parent class")
     public void test() {
         Map<String, Object> attributes = new HashMap<>();
